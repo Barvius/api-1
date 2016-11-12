@@ -1,0 +1,113 @@
+ <!DOCTYPE html>
+ <html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <title>TITLE</title>
+     <meta name="description" content="DESCRIPTION">
+    <link rel="stylesheet" href="PATH">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+     <!--[if lt IE 9]>
+       <script src = "http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+     <![endif]-->
+ </head>
+
+ <body>
+
+     <nav class="navbar navbar-inverse navbar-fixed-top">
+       <div class="container">
+         <div class="navbar-header">
+           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+             <span class="sr-only">Toggle navigation</span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+           </button>
+           <a class="navbar-brand" href="#">Project name</a>
+         </div>
+         <div id="navbar" class="navbar-collapse collapse">
+           <form class="navbar-form navbar-right">
+             <div class="form-group">
+               <input type="text" placeholder="Email" class="form-control">
+             </div>
+             <div class="form-group">
+               <input type="password" placeholder="Password" class="form-control">
+             </div>
+             <button type="submit" class="btn btn-success">Sign in</button>
+           </form>
+         </div><!--/.navbar-collapse -->
+       </div>
+     </nav>
+
+     <!-- Main jumbotron for a primary marketing message or call to action -->
+     <div class="jumbotron">
+       <div class="container">
+         <h1>Hello, world!</h1>
+         <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+       </div>
+     </div>
+
+     <div class="container">
+       <!-- Example row of columns -->
+       <div class="row">
+        <div class="col-md-4" id="dee">
+
+        </div>
+        <div class="col-md-4">
+          <div class="well">
+            <p>132</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="well">
+            <p>132</p>
+          </div>
+        </div>
+       </div>
+
+       <hr>
+
+       <footer>
+         <p>&copy; 2016 Company, Inc.</p>
+       </footer>
+     </div> <!-- /container -->
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+  <script>
+  jQuery.ajax({
+              url: "http://109.254.87.86/slim/index.php/dev/aaa/list",
+              type: "GET",
+              contentType: 'application/json; charset=utf-8',
+              success: function(resultData) {
+               for (var i = 0; i < resultData.id.length; i++) {
+                 if (Object.keys(resultData.atr).length > i) {
+                   names = resultData.atr[resultData.id[i]][0];
+                   prefix = resultData.atr[resultData.id[i]][1];
+                   if (resultData.atr[resultData.id[i]][2] ==1) {
+                     jQuery.ajax({
+                                  async: false,
+                                 url: "http://109.254.87.86/slim/index.php/dev/aaa/"+resultData.id[i]+"/now",
+                                 type: "GET",
+                                 contentType: 'application/json; charset=utf-8',
+                                 success: function(Data) {
+                     $('#dee').append('<div class="well clearfix">' + '<h4>' +names+'<span class="label label-success pull-right">'+ Data.data +' '+prefix + '</span></h4>' + '</div>');
+                   }});
+                   }
+                 }
+
+               }
+              }
+          });
+
+  </script>
+<style>
+p {
+  margin: 0;
+}
+</style>
+ </body>
+
+ </html>

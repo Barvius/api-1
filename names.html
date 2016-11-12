@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8" />
+    <title>имена</title>
+    <meta name="description" content="DESCRIPTION">
+   <link rel="stylesheet" href="PATH">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src = "http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+
+    <div class="container">
+      <br><br><br>
+      <!-- Example row of columns -->
+      <div class="col-md-12 column">
+			<table class="table table-bordered text-center" id="tab_logic">
+				<thead>
+					<tr >
+						<th class="text-center">
+							#
+						</th>
+						<th class="text-center">
+							ID
+						</th>
+						<th class="text-center">
+							Name
+						</th>
+            <th class="text-center">
+							prefix
+						</th>
+						<th class="text-center">
+							enabled
+						</th>
+						<th class="text-center">
+							##
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id='dev_0'>
+				</tbody>
+			</table>
+		</div>
+
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+    </div> <!-- /container -->
+
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+ <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+ <script>
+ function check_change(id) {
+      if ($('#'+id).is(':checked'))
+          $('#'+id).attr('checked', 'checked');
+      else
+          $('#'+id).removeAttr('checked');
+
+ }
+
+ var id = 0;
+var datas = 0;
+var prefix = "";
+ jQuery.ajax({
+             url: "http://109.254.87.86/slim/index.php/dev/aaa/list",
+             type: "GET",
+             contentType: 'application/json; charset=utf-8',
+             success: function(resultData) {
+              var id_list=resultData;
+              for (var i = 0; i < id_list.id.length; i++) {
+                if (Object.keys(resultData.atr).length > i) {
+                  names = resultData.atr[id_list.id[i]][0];
+                  prefix = resultData.atr[id_list.id[i]][1];
+                  if (resultData.atr[id_list.id[i]][2] ==1) {
+                    chec = "checked";
+                  } else {
+                    chec = "";
+                  }
+                } else {
+                  names="";
+                  prefix="";
+                  chec = "";
+                }
+                $('#dev_'+i).html("<td>"+ (i+1) +"</td><td>"+id_list.id[i]+"</td><td><input id='label_"+id_list.id[i]+"' type='text' placeholder='Название датчика' class='form-control input-md' value='"+names+"'></td><td><input id='prefix_"+id_list.id[i]+"' type='text' placeholder='Префикс' class='form-control input-md' value='"+prefix+"'></td><td><input type='checkbox' onChange='check_change(this.id)' id='check_"+id_list.id[i]+"' "+chec+"></td><td><button id='"+id_list.id[i]+"' type='button' class='btn btn-xs btn-info' onclick='save_dev(this.id);'>Save</button></td>");
+                $('#tab_logic').append('<tr id="dev_'+(i+1)+'"></tr>');
+
+              }
+             }
+         });
+
+    function save_dev(id){
+      if($('#check_'+id).attr("checked") == 'checked'){
+        checked = 1;
+      } else {
+        checked = 0;
+      }
+
+           jQuery.ajax({
+                       url: "http://109.254.87.86/slim/index.php/set_atr/aaa/"+id+"/"+$('#label_'+id).val()+"/"+$('#prefix_'+id).val()+"/"+checked,
+                       type: "GET",
+                       contentType: 'application/json; charset=utf-8',
+                       success: function(resultData) {
+                       }
+                   });
+         };
+ </script>
+</body>
+
+</html>
